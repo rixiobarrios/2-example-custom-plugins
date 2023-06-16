@@ -1,0 +1,16 @@
+{
+  "name": "extplugins",
+  "version": "0.0.1",
+  "description": "",
+  "devDependencies": {
+    "@sap/grunt-sapui5-bestpractice-build": "1.4.15",
+    "@sap/grunt-sapui5-bestpractice-test": "2.0.4"
+  },
+  "dependencies": {
+    "@sap/approuter": "11.3.4"
+  },
+  "scripts": {
+    "start": "node node_modules/@sap/approuter/approuter.js",
+    "test": "grunt unit_and_integration_tests"
+  }
+}

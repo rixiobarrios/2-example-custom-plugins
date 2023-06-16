@@ -1,0 +1,247 @@
+<mvc:View 
+    xmlns:l="sap.ui.layout" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns="sap.m" 
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" 
+    controllerName="sap.example.plugins.exampleViewPlugin.controller.PluginView" 
+    width="100%" 
+    height="100%">
+    <Panel id="podModelPluginPanel" width="100%" height="100%" expandable="false" expanded="true" 
+        accessibleRole="Region" backgroundDesign="Transparent" class="sapUiTinyMarginBegin sapUiTinyMarginEnd">
+        <headerToolbar>
+            <Toolbar height="3rem">
+                <Title text="{i18n>title}"/>
+                <ToolbarSpacer/>
+                <Button id="closeButton" icon="sap-icon://decline" press="onClosePress" visible="true"/>
+            </Toolbar>
+        </headerToolbar>
+        <content>
+            <VBox id="podModelPluginPanelContent" width="100%" height="100%" renderType="Bare" class="sapUiNoContentPadding">
+                <items>
+                    <HBox width="100%">
+                        <items>
+                            <Label id="podTypeLabel" text="POD Type:" class="sapUiTinyMarginEnd"/>
+                            <Label id="podType" text="{/podType}" width="100%" />
+                        </items>
+                    </HBox>
+                    <HBox width="100%">
+                        <items>
+                            <Label id="inputTypeLabel" text="Input Type:" class="sapUiTinyMarginEnd"/>
+                            <Label id="inputType" text="{/inputType}" width="100%" />
+                        </items>
+                    </HBox>
+                    <HBox width="100%" visible="{= ${/podType} === 'WORK_CENTER' || ${/podType} === 'NC'}">
+                        <items>
+                            <Label id="workCenterLabel" text="Work Center:" class="sapUiTinyMarginEnd"/>
+                            <Label id="workCenter" text="{/workCenter}" width="100%" />
+                        </items>
+                    </HBox>
+                    <HBox width="100%" visible="{= ${/podType} === 'OPERATION' || ${/podType} === 'NC'}">
+                        <items>
+                            <Label id="operationLabel" text="Operation:" class="sapUiTinyMarginEnd"/>
+                            <Label id="operation" text="{/operation}" width="100%" />
+                        </items>
+                    </HBox>
+                    <HBox width="100%">
+                        <items>
+                            <Label id="resourceLabel" text="Resource:" class="sapUiTinyMarginEnd"/>
+                            <Label id="resource" text="{/resource}" width="100%" />
+                        </items>
+                    </HBox>
+                    <HBox width="100%">
+                        <items>
+                            <Label id="quantityLabel" text="Quantity:" class="sapUiTinyMarginEnd"/>
+                            <Label id="quantity" text="{/quantity}" width="100%" />
+                        </items>
+                    </HBox>
+                    <HBox width="100%">
+                        <items>
+                            <Label id="materialLabel" text="Material:" class="sapUiTinyMarginEnd"/>
+                            <Label id="material" text="{/materialNo}" width="100%" />
+                        </items>
+                    </HBox>
+                    <HBox width="100%">
+                        <items>
+                            <Label id="materialVersionLabel" text="Material Version:" class="sapUiTinyMarginEnd"/>
+                            <Label id="materialVersion" text="{/materialVersion}" width="100%" />
+                        </items>
+                    </HBox>
+                    <VBox width="100%" height="100%" renderType="Bare" class="sapUiNoContentPadding">
+                        <IconTabBar
+                            id="idIconTabBarInlineMode"
+                            headerMode="Inline"
+                            expanded="true"
+                            class="sapUiNoContentPadding">
+                            <items>
+                                <IconTabFilter
+                                    text="Selected SFC's"
+                                    key="selections"
+                                    count="{/selectionCount}">
+                                    <Table
+                                        id="selectionsTable"
+                                        backgroundDesign="Solid"
+                                        inset="false"
+                                        width="100%"
+                                        mode="SingleSelectMaster"
+                                        items="{
+                                            path: '/Selections'
+                                        }">
+                                        <columns>
+                                            <Column hAlign="Begin">
+                                                <Text text="Input"  wrapping="false"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="SFC"  wrapping="false"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Item" />
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Process Lot" />
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Shop Order" />
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="SFC Data" />
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <Text text="{input}"/>
+                                                    <Text text="{sfc}"/>
+                                                    <Text text="{item}"/>
+                                                    <Text text="{processLot}"/>
+                                                    <Text text="{shopOrder}"/>
+                                                    <Button text="Data" app:sfcData="{sfcData}" press="onSfcDataPressed"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+			                    </IconTabFilter>
+                                <IconTabFilter
+                                    text="Selected Operations"
+                                    key="operations"
+                                    count="{/operationCount}"
+                                    visible="{= ${/podType} === 'WORK_CENTER' || ${/podType} === 'ORDER'}">
+                                    <Table
+                                        id="operationsTable"
+                                        backgroundDesign="Solid"
+                                        inset="false"
+                                        width="100%"
+                                        mode="SingleSelectMaster"
+                                        visible="{= ${/podType} === 'WORK_CENTER' || ${/podType} === 'ORDER'}"
+                                        items="{
+                                            path: '/Operations'
+                                        }">
+                                        <columns>
+                                            <Column hAlign="Begin">
+                                                <Text text="operation"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Version"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Operation Data"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <Text text="{operation}"/>
+                                                    <Text text="{version}"/>
+                                                    <Button text="Data" app:operData="{operData}" press="onOperationDataPressed"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+			                    </IconTabFilter>
+                                <IconTabFilter
+                                    text="Selected Routing Steps"
+                                    key="routingSteps"
+                                    count="{/routingStepsCount}">
+                                    <Table
+                                        id="routingStepsTable"
+                                        backgroundDesign="Solid"
+                                        inset="false"
+                                        width="100%"
+                                        mode="SingleSelectMaster"
+                                        items="{
+                                            path: '/RoutingSteps'
+                                        }">
+                                        <columns>
+                                            <Column hAlign="Begin">
+                                                <Text text="Step ID"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Routing"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Routing Version"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Routing Type"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <Text text="{stepId}"/>
+                                                    <Text text="{routing}"/>
+                                                    <Text text="{routingVersion}"/>
+                                                    <Text text="{routingType}"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+			                    </IconTabFilter>
+                                <IconTabFilter
+                                    text="Components"
+                                    key="components"
+                                    count="{/componentCount}">
+                                    <Table
+                                        id="componentsTable"
+                                        backgroundDesign="Solid"
+                                        inset="false"
+                                        width="100%"
+                                        mode="SingleSelectMaster"
+                                        items="{
+                                            path: '/Components'
+                                        }">
+                                        <columns>
+                                            <Column hAlign="Begin">
+                                                <Text text="Component/Version"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Description"/>
+                                            </Column>
+                                            <Column hAlign="Begin">
+                                                <Text text="Component Data"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <Text text="{componentNameAndVersion}"/>
+                                                    <Text text="{componentDescription}"/>
+                                                    <Button text="Data" app:componentData="{componentData}" press="onComponentDataPressed"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+			                    </IconTabFilter>
+                            </items>
+                        </IconTabBar>
+                    </VBox>
+                    <VBox width="100%" height="200px" renderType="Bare" class="sapUiNoContentPadding" visible="{/notificationsEnabled}">
+                        <items>
+                            <Label id="notificationLabel" text="Notification Message:" class="sapUiTinyMarginEnd"/>
+                            <TextArea id="notificationText" value="{/notificationMessage}" growing="true" width="100%"/>
+                        </items>
+                    </VBox>
+                </items>
+            </VBox>
+        </content>
+    </Panel>
+</mvc:View>

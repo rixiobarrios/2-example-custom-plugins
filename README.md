@@ -75,4 +75,4 @@ If you have issues with these examples, please open a report using [GitHub issue
 ## License
 Copyright © 2020 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the SAP Sample Code License except as noted otherwise in the [LICENSE file](../../../LICENSE).
-# example-custom-plugins
+
